@@ -3,14 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BEEVENTS</title>
-
+  <title>BEVENTS</title>
   <link rel="stylesheet" href="../Constants/Constants.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    once: true
+  });
+</script>
 <body>
   <header>
     <div class="brand">
-      <img src="../Assets/logo.jpeg" alt="BEEVENTS Logo" class="logo" />
+      <img src="../Assets/logo.jpeg" alt="BEVENTS Logo" class="logo" />
       <h1 class="brand-name">BISONS EVENTS HUB</h1>
     </div>
 
@@ -20,7 +29,9 @@
   </header>
   <section class="hero">
     <div class="hero-content">
-        <h1 id="welcome-title">Welcome To BEEVENTS</h1>
+        <h1 id="welcome-title" class="animate__animated animate__fadeInDown">
+  Welcome To BEVENTS 
+        </h1>
 
         <div class="search-container">
             <input 
@@ -33,5 +44,226 @@
         </div>
     </div>
 </section>
+<section id="events-section" class="events">
+
+  <h2 class="section-title">Explore Events</h2>
+
+  <div class="cards-container">
+
+    <!-- CARD 1 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 1">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">FEB</div>
+          <div class="day">23</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">8:00 pm - 11:00 pm</span>
+          </div>
+          <h3 class="event-title">Trivia Night</h3>
+          <button class="see-more-btn" id="see-more-1">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 2 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 2">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">FEB</div>
+          <div class="day">24</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">8:00 pm - 11:30 pm</span>
+          </div>
+          <h3 class="event-title">Karaoke Night</h3>
+          <button class="see-more-btn" id="see-more-2">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 3 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 3">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">FEB</div>
+          <div class="day">25</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">10:00 am - 11:00 am</span>
+          </div>
+          <h3 class="event-title">Office Hours</h3>
+          <button class="see-more-btn" id="see-more-3">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 4 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 4">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">MAR</div>
+          <div class="day">01</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">6:00 pm - 9:00 pm</span>
+          </div>
+          <h3 class="event-title">Pool Night</h3>
+          <button class="see-more-btn" id="see-more-4">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 5 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 5">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">MAR</div>
+          <div class="day">02</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">4:30 pm - 7:30 pm</span>
+          </div>
+          <h3 class="event-title">Cosmopolitan</h3>
+          <button class="see-more-btn" id="see-more-5">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 6 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 6">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">MAR</div>
+          <div class="day">03</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">7:00 pm - 10:00 pm</span>
+          </div>
+          <h3 class="event-title">Wing Night</h3>
+          <button class="see-more-btn" id="see-more-6">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 7 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 7">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">MAR</div>
+          <div class="day">04</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">3:00 pm - 6:00 pm</span>
+          </div>
+          <h3 class="event-title">Workshop</h3>
+          <button class="see-more-btn" id="see-more-7">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 8 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 8">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">MAR</div>
+          <div class="day">05</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">5:00 pm - 8:00 pm</span>
+          </div>
+          <h3 class="event-title">Networking</h3>
+          <button class="see-more-btn" id="see-more-8">See More</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- CARD 9 -->
+    <article class="event-tile">
+      <img class="event-img" src="../Assets/background.png" alt="Event 9">
+      <div class="event-details">
+        <div class="date-box">
+          <div class="month">MAR</div>
+          <div class="day">06</div>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">Free</span>
+            <span class="time">2:00 pm - 4:00 pm</span>
+          </div>
+          <h3 class="event-title">Campus Fair</h3>
+          <button class="see-more-btn" id="see-more-9">See More</button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <h2>BISONS EVENTS HUB</h2>
+      <p>Connecting students to campus experiences.</p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#events-section">Events</a></li>
+        <li><a href="./LoginPg.html">Admin</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+  <h4>Contact</h4>
+
+  <p>
+    <i class="fa-solid fa-envelope"></i>
+    info@beevents.ca
+  </p>
+
+  <p>
+    <i class="fa-solid fa-location-dot"></i>
+    Winnipeg, MB
+  </p>
+
+  <p>
+    <i class="fa-solid fa-phone"></i>
+    +1 (204) 123-4567
+  </p>
+</div>
+
+  <div class="footer-bottom">
+    © 2025 BEVENTS. All rights reserved.
+  </div>
+
+</footer>
 </body>
 </html>
