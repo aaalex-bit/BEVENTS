@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;1,100;1,300&display=swap');
+
 :root {
   --first: #f9f7f7;
   --second: #dbe2ef;
@@ -16,6 +18,7 @@
   text-decoration: none;
   text-transform: capitalize;
   transition: 0.2s linear;
+  font-family: 'Poppins', sans-serif;
 }
 
 header {
@@ -27,7 +30,7 @@ header {
   padding: 0 5rem;
 }
 
-#logo {
+.logo {
   width: 70px;
   object-fit: cover;
 }
@@ -36,5 +39,33 @@ header {
   font-size: 26px;
   font-weight: 800;
   letter-spacing: 2px;
-  color: #facc15;
+  color: var(--fourth);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-btn {
+  background-color: var(--third);
+  color: var(--first);
+  padding: 10px 24px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.admin-btn:hover {
+  background-color: var(--fourth);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(17, 45, 78, 0.25);
+}
+
+.admin-btn:active {
+  transform: scale(0.96);
 }
