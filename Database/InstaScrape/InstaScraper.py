@@ -31,13 +31,19 @@ class InstaScraper:
             "Date" : "",
             
         }
+        
+        ListInfo = []
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True) 
             page = browser.new_page()
             page.goto(self.link_to_webPage, timeout=10000)
-            image = page.locator('.x5yr21d',  timeout=1000)
-            for i  in image.count():
-                print(i.get_attribute("src"))
+            images = page.locator(".xu96u03")
+            
+            print(images)
+            #for image in range(images.count):
+             #   print(images.nth(images).get_attribute("src"))
+                #ListInfo.append(self.ImageAnalysis(image))
+            
             
             browser.close()
         
