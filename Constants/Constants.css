@@ -28,6 +28,7 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 5rem;
+  background: transparent;
 }
 
 .logo {
@@ -48,7 +49,7 @@ header {
     gap: 15px;
 }
 
-.admin-btn {
+#admin-btn {
   background-color: var(--third);
   color: var(--first);
   padding: 10px 24px;
@@ -60,12 +61,87 @@ header {
   transition: all 0.3s ease;
 }
 
-.admin-btn:hover {
+#admin-btn:hover {
   background-color: var(--fourth);
   transform: translateY(-2px);
   box-shadow: 0 8px 18px rgba(17, 45, 78, 0.25);
 }
 
-.admin-btn:active {
+#admin-btn:active {
   transform: scale(0.96);
 }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-image: url("../Assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.hero {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+#welcome-title {
+    font-size: 48px;
+    color: var(--first);
+    font-weight: 700;
+}
+
+#welcome-title {
+    font-size: 75px;
+    color: var(--first);
+    font-weight: 700;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#search-input {
+    width: 450px;
+    padding: 18px 24px;        
+    font-size: 18px;
+    border-radius: 50px 0 0 50px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.9);
+}
+
+#search-btn {
+    padding: 18px 30px;
+    font-size: 18px;
+    border-radius: 0 50px 50px 0;
+    background-color: var(--third);
+    color: var(--first);
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+#search-btn:hover {
+    background-color: var(--fourth);
+}
+
+.search-container {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
