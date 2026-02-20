@@ -143,7 +143,7 @@ header {
   overflow: hidden;
 }
 
-<<<<<<< HEAD
+
 .events {
   padding: 100px 8%;
   background-color: var(--second);
@@ -457,29 +457,36 @@ nav {
 
 /* Card */
 #loginForm{
-  width: 100%;
-  max-width: 520px;
-  background: rgba(249, 247, 247, 0.92); /* var(--first) with slight transparency */
+  width: 800px;
+  height: 500px;
+  background: transparent; /* var(--first) with slight transparency */
   border-radius: var(--border-radius);
   border: 1px solid rgba(17, 45, 78, 0.18);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.25); 
+  backdrop-filter: blur(20px);
   overflow: hidden;
+  animation: loginFade 0.8s ease forwards;
+  opacity: 0;
+  transform: translateY(40px);
 }
 
 /* Top avatar section like your screenshot */
 #avatarContainer{
-  background: rgba(219, 226, 239, 0.75); /* var(--second) */
-  padding: 26px 0 18px;
+  background: transparent; /* var(--second) */
+  padding: 20px 0 10px;
+  width: 800px;
+  height: 150px;  
   position: relative;
   display: flex;
   justify-content: center;
+  backdrop-filter: blur;
   align-items: center;
 }
 
 /* Avatar */
 #avatar{
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
   border: 6px solid rgba(249,247,247,0.9);
@@ -501,6 +508,12 @@ nav {
 /* Main content */
 #loginContent{
   padding: 22px 24px 18px;
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+  margin-right: 100px;
 }
 
 /* Stop the global capitalize inside login */
@@ -529,14 +542,14 @@ nav {
 /* Inputs */
 #loginContent input[type="text"],
 #loginContent input[type="password"]{
-  width: 100%;
-  display: block;
-  box-sizing: border-box;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.22);
+  width: 300px;
+  padding: 16px 18px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.15);
   background: #fff;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Focus style */
@@ -547,7 +560,7 @@ nav {
 
 /* Login button */
 #loginBtn{
-  width: 100%;
+  width: 200px;
   margin-top: 16px;
   padding: 14px 16px;
   border-radius: 10px;
@@ -583,18 +596,6 @@ nav {
   align-items: center;
 }
 
-/* Forgot link */
-#forgotText{
-  color: #000;
-  font-weight: 600;
-}
-
-#forgotLink{
-  color: #6a1b9a;
-  font-weight: 700;
-  text-decoration: underline;
-}
-
 /* Responsive */
 @media (max-width: 520px){
   #loginContent{
@@ -608,5 +609,12 @@ nav {
   #avatar{
     width: 130px;
     height: 130px;
+  }
+}
+
+@keyframes loginFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
