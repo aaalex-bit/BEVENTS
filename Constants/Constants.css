@@ -342,6 +342,7 @@ header {
 
 .event-tile:hover .event-img {
   transform: scale(1.03);
+}
 /* ===== ADMIN NAVBAR ===== */
 nav {
   display: flex;
