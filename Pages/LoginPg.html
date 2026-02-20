@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <!-- DO NOT CHANGE -->
+  <link rel="stylesheet" href="../Constants/Constants.css">
+
+  
+</head>
+
+<body>
+
+<header>
+  <img src="../Assets/logo.jpeg" class="logo" alt="Logo">
+  <div class="brand-name">Event Portal</div>
+</header>
+
+<main id="page">
+  <form id="loginForm" action="action_page.php" method="post">
+
+    <h2 id="loginTitle">Welcome Back</h2>
+
+    <label for="username">Username</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      placeholder="Enter Username"
+      required
+    >
+
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Enter Password"
+      required
+    >
+
+    <button type="submit" id="loginBtn">Login</button>
+    <button type="button" id="cancelBtn">Cancel</button>
+
+  </form>
+</main>
+
+</body>
+</html>
