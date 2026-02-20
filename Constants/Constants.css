@@ -337,10 +337,8 @@ header {
 
 .event-tile:hover .event-img {
   transform: scale(1.03);
-<<<<<<< HEAD
 }
-=======
-}
+
 /* ===== ADMIN NAVBAR ===== */
 nav {
   display: flex;
@@ -376,7 +374,7 @@ nav {
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
   border-radius: var(--border-radius);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .card h2 {
@@ -393,7 +391,7 @@ nav {
 
 .post {
   background: var(--second);
-  padding:  15px;
+  padding: 15px;
   border-radius: var(--border-radius);
 }
 
@@ -443,4 +441,7 @@ nav {
 .grid-2 input {
   flex: 1;
 }
+<<<<<<< HEAD
 >>>>>>> 3cde44a29af2c323eaf18bb4c0fe227d322edae6
+=======
+>>>>>>> sania/frontend
