@@ -116,7 +116,7 @@ header {
 }
 
 #search-input {
-  width: 450px;
+  max-width: 450px;
   padding: 18px 24px;
   font-size: 18px;
   border-radius: 50px 0 0 50px;
@@ -240,7 +240,6 @@ header {
 }
 
 .see-more-btn {
-  margin-top: 12px;
   background: var(--third);
   color: var(--first);
   padding: 10px 16px;
@@ -248,6 +247,8 @@ header {
   font-weight: 800;
   cursor: pointer;
   transition: 0.25s ease;
+  display: inline-block;
+  margin-top: 14px;
 }
 
 .see-more-btn:hover {
@@ -314,6 +315,7 @@ header {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 0.8s ease forwards;
+  margin: 0 0 14px 0;  
 }
 
 @keyframes fadeUp {
@@ -640,25 +642,6 @@ nav {
   color: rgba(17, 45, 78, 0.85);
 }
 
-.tags-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.pill {
-  background: rgba(63, 114, 175, 0.12);
-  color: var(--third);
-  font-weight: 800;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-}
-
-.back-row {
-  margin-top: 10px;
-}
-
 .back-link {
   color: var(--third);
   font-weight: 800;
@@ -681,8 +664,10 @@ nav {
 #loginBtn:hover {
   background: var(--fourth);
 }
+.secondary-btn{
+  margin-top: 10px;
+}
 
-/* Remember row */
 #rememberRow {
   display: flex;
   align-items: center;
@@ -729,5 +714,133 @@ nav {
   #avatar {
     width: 130px;
     height: 130px;
+  }
+}
+
+
+.secondary-btn{
+  background: var(--second);
+  color: var(--fourth);
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.secondary-btn:hover{
+  background: var(--third);
+  color: var(--first);
+}
+
+.back-row{
+  margin-top: 25px;
+}
+
+@media (max-width: 700px) {
+
+  /* HEADER */
+  header{
+    padding: 10px 12px;
+    min-height: 78px;
+    height: auto;
+    gap: 10px;
+  }
+
+  .brand{
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .logo{
+    width: 52px;
+    flex: 0 0 auto;
+  }
+
+  .brand-name{
+    font-size: 16px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 52vw; 
+  }
+
+  nav{
+    flex: 0 0 auto;
+  }
+
+  #admin-btn{
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 14px;
+    white-space: nowrap;
+  }
+
+  /* HERO */
+  .hero{
+    min-height: calc(100vh - 78px);
+    padding: 28px 14px;
+  }
+
+  #welcome-title{
+    font-size: clamp(28px, 9vw, 44px);
+    letter-spacing: 1px;
+  }
+
+  /* SEARCH: make it fully fluid on mobile */
+  .search-container{
+    width: 100%;
+    max-width: 520px;
+    flex-direction: column;
+    border-radius: 22px;
+  }
+
+  #search-input{
+    width: 100%;
+    max-width: 100%;
+    border-radius: 22px;
+  }
+
+  #search-btn{
+    width: 100%;
+    border-radius: 22px;
+  }
+
+  /* EVENTS GRID */
+  .events{
+    padding: 70px 6%;
+  }
+
+  .cards-container{
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .event-img{
+    height: 200px;
+  }
+
+  /* DETAIL PAGE */
+  .detail-page{
+    padding: 40px 6%;
+  }
+
+  .detail-hero{
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .detail-info #detail-title{
+    font-size: 30px;
+  }
+
+  /* FOOTER */
+  .footer-container{
+    width: 100%;
+    padding: 0 6% 35px;
+    grid-template-columns: 1fr;
+    gap: 22px;
   }
 }
