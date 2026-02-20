@@ -337,4 +337,110 @@ header {
 
 .event-tile:hover .event-img {
   transform: scale(1.03);
+<<<<<<< HEAD
 }
+=======
+}
+/* ===== ADMIN NAVBAR ===== */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.nav-link {
+  color: var(--fourth);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 14px;
+  border-radius: var(--border-radius);
+}
+
+.nav-link:hover {
+  background-color: var(--third);
+  color: var(--first);
+}
+
+/* ===== MAIN CONTENT AREA ===== */
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  color: var(--fourth);
+}
+
+/* ===== POSTS ===== */
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.post {
+  background: var(--second);
+  padding:  15px;
+  border-radius: var(--border-radius);
+}
+
+.post button {
+  margin-top: 20px;
+}
+
+.meta {
+  font-size: 14px;
+  margin: 5px 0;
+  opacity: 0.8;
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  background-color: var(--third);
+  color: var(--first);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--fourth);
+}
+
+/* ===== FORM ===== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form input,
+.form textarea {
+  padding: 10px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--second);
+}
+
+.grid-2 {
+  display: flex;
+  gap: 10px;
+}
+
+.grid-2 input {
+  flex: 1;
+}
+>>>>>>> 3cde44a29af2c323eaf18bb4c0fe227d322edae6
