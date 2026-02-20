@@ -145,3 +145,170 @@ body {
     overflow: hidden;
 }
 
+/* =========================
+   LOGIN PAGE STYLES (ADDED)
+   ========================= */
+
+#login-page{
+  min-height: calc(100vh - 100px); /* minus header height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 16px;
+}
+
+/* Card */
+#loginForm{
+  width: 100%;
+  max-width: 520px;
+  background: rgba(249, 247, 247, 0.92); /* var(--first) with slight transparency */
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(17, 45, 78, 0.18);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+  overflow: hidden;
+}
+
+/* Top avatar section like your screenshot */
+#avatarContainer{
+  background: rgba(219, 226, 239, 0.75); /* var(--second) */
+  padding: 26px 0 18px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Avatar */
+#avatar{
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid rgba(249,247,247,0.9);
+}
+
+/* X close button */
+#closeBtn{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 34px;
+  font-weight: 800;
+  background: transparent;
+  cursor: pointer;
+  color: #000;
+  line-height: 1;
+}
+
+/* Main content */
+#loginContent{
+  padding: 22px 24px 18px;
+}
+
+/* Stop the global capitalize inside login */
+#loginForm,
+#loginForm *{
+  text-transform: none;
+}
+
+/* Title */
+#loginTitle{
+  font-size: 30px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #000;
+}
+
+/* Labels */
+#loginContent label{
+  display: block;
+  font-weight: 700;
+  color: #000;
+  margin-top: 12px;
+  margin-bottom: 6px;
+}
+
+/* Inputs */
+#loginContent input[type="text"],
+#loginContent input[type="password"]{
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.22);
+  background: #fff;
+  font-size: 14px;
+}
+
+/* Focus style */
+#loginContent input:focus{
+  border-color: var(--third);
+  box-shadow: 0 0 0 4px rgba(63,114,175,0.22);
+}
+
+/* Login button */
+#loginBtn{
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--third);
+  color: var(--first);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#loginBtn:hover{
+  background: var(--fourth);
+}
+
+/* Remember row */
+#rememberRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+#rememberRow input{
+  width: 16px;
+  height: 16px;
+}
+
+/* Bottom bar like screenshot */
+#loginBottom{
+  background: rgba(219, 226, 239, 0.75); /* var(--second) */
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Forgot link */
+#forgotText{
+  color: #000;
+  font-weight: 600;
+}
+
+#forgotLink{
+  color: #6a1b9a;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 520px){
+  #loginContent{
+    padding: 18px 16px 14px;
+  }
+
+  #loginTitle{
+    font-size: 26px;
+  }
+
+  #avatar{
+    width: 130px;
+    height: 130px;
+  }
+}

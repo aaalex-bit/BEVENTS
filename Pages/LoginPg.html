@@ -5,46 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
 
-  <!-- DO NOT CHANGE -->
+
   <link rel="stylesheet" href="../Constants/Constants.css">
 
-  
 </head>
 
 <body>
 
 <header>
-  <img src="../Assets/logo.jpeg" class="logo" alt="Logo">
-  <div class="brand-name">Event Portal</div>
+  <a href="HomePg.html" class="brand">
+    <img src="../Assets/logo.jpeg" class="logo" alt="Logo">
+    <div class="brand-name">BISON EVENT HUB</div>
+  </a>
 </header>
 
-<main id="page">
+<main id="login-page">
+
   <form id="loginForm" action="action_page.php" method="post">
 
-    <h2 id="loginTitle">Welcome Back</h2>
+    <div id="avatarContainer">
+      <img src="../Assets/logo.jpeg" id="avatar" alt="Avatar">
+      <button type="button" id="closeBtn" aria-label="Close">&times;</button>
+      <a href="HomePg.html" id="closeBtn">&times;</a>
+    </div>
 
-    <label for="username">Username</label>
-    <input
-      type="text"
-      id="username"
-      name="username"
-      placeholder="Enter Username"
-      required
-    >
+    <div id="loginContent">
+      <h2 id="loginTitle">Welcome Back</h2>
 
-    <label for="password">Password</label>
-    <input
-      type="password"
-      id="password"
-      name="password"
-      placeholder="Enter Password"
-      required
-    >
+      <label for="username" id="usernameLabel">Username</label>
+      <input type="text" id="username" name="username" placeholder="Enter Username" required>
 
-    <button type="submit" id="loginBtn">Login</button>
-    <button type="button" id="cancelBtn">Cancel</button>
+      <label for="password" id="passwordLabel">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter Password" required>
+
+      <button type="submit" id="loginBtn">Login</button>
+
+      <div id="rememberRow">
+        <input type="checkbox" id="rememberMe" name="rememberMe" checked>
+        <label for="rememberMe" id="rememberLabel">Remember me</label>
+      </div>
+    </div>
+
+    <div id="loginBottom">
+      <span id="forgotText">
+        Forgot <a href="#" id="forgotLink">password</a>
+      </span>
+    </div>
 
   </form>
+
 </main>
 
 </body>
