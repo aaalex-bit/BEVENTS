@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;1,100;1,300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,500;0,600;1,100;1,300&display=swap");
 
 :root {
   --first: #f9f7f7;
@@ -10,11 +10,11 @@
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
-body{
-    overflow-x: hidden;
+body {
+  overflow-x: hidden;
 }
 
 * {
@@ -26,7 +26,7 @@ body{
   text-decoration: none;
   text-transform: capitalize;
   transition: 0.2s linear;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 header {
@@ -52,9 +52,9 @@ header {
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 #admin-btn {
@@ -79,7 +79,6 @@ header {
   transform: scale(0.96);
 }
 
-
 .hero {
   min-height: calc(100vh - 100px);
   background-image: url("../Assets/background.png");
@@ -94,62 +93,60 @@ header {
 }
 
 .hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
 }
 
 #welcome-title {
-    font-size: clamp(48px, 6vw, 90px);
+  font-size: clamp(48px, 6vw, 90px);
   color: var(--first);
   font-weight: 800;
   letter-spacing: 2px;
 }
 
 .search-container {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
 }
 
 #search-input {
-    width: 450px;
-    padding: 18px 24px;        
-    font-size: 18px;
-    border-radius: 50px 0 0 50px;
-    border: none;
-    outline: none;
-    background: rgba(255,255,255,0.9);
+  width: 450px;
+  padding: 18px 24px;
+  font-size: 18px;
+  border-radius: 50px 0 0 50px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 #search-btn {
-    padding: 18px 30px;
-    font-size: 18px;
-    border-radius: 0 50px 50px 0;
-    background-color: var(--third);
-    color: var(--first);
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s ease;
+  padding: 18px 30px;
+  font-size: 18px;
+  border-radius: 0 50px 50px 0;
+  background-color: var(--third);
+  color: var(--first);
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 #search-btn:hover {
-    background-color: var(--fourth);
+  background-color: var(--fourth);
 }
 
 .search-container {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border-radius: 50px;
-    overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 50px;
+  overflow: hidden;
 }
 
-<<<<<<< HEAD
 .events {
-    padding: 100px 8%;
-    background-color: var(--second);
+  padding: 100px 8%;
+  background-color: var(--second);
 }
-
 
 .section-title {
   text-align: center;
@@ -167,12 +164,15 @@ header {
 
 /* responsive */
 @media (max-width: 1100px) {
-  .cards-container { grid-template-columns: repeat(2, minmax(260px, 1fr)); }
+  .cards-container {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
 }
 @media (max-width: 700px) {
-  .cards-container { grid-template-columns: 1fr; }
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
 }
-
 
 .event-tile {
   background: transparent;
@@ -242,7 +242,6 @@ header {
   line-height: 1.2;
 }
 
-
 .see-more-btn {
   margin-top: 12px;
   background: var(--third);
@@ -257,7 +256,6 @@ header {
 .see-more-btn:hover {
   background: var(--fourth);
 }
-
 
 .footer {
   background-color: var(--fourth);
@@ -329,12 +327,14 @@ header {
 }
 
 .event-tile {
-  transition: transform 0.25s ease, filter 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
 }
 
 .event-tile:hover {
   transform: translateY(-8px);
-  filter: drop-shadow(0 12px 25px rgba(17,45,78,0.18));
+  filter: drop-shadow(0 12px 25px rgba(17, 45, 78, 0.18));
 }
 
 .event-img {
@@ -343,7 +343,7 @@ header {
 
 .event-tile:hover .event-img {
   transform: scale(1.03);
-=======
+}
 /* ===== ADMIN NAVBAR ===== */
 nav {
   display: flex;
@@ -379,7 +379,7 @@ nav {
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
   border-radius: var(--border-radius);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .card h2 {
@@ -396,7 +396,7 @@ nav {
 
 .post {
   background: var(--second);
-  padding:  15px;
+  padding: 15px;
   border-radius: var(--border-radius);
 }
 
@@ -445,5 +445,4 @@ nav {
 
 .grid-2 input {
   flex: 1;
->>>>>>> 37e65e50eb3137e71df47c35a91500e483c0574f
 }
