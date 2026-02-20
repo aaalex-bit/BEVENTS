@@ -1,41 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../Constants/loginstyles.css">
-<title>Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <!-- DO NOT CHANGE -->
+  <link rel="stylesheet" href="../Constants/Constants.css">
+
+  
 </head>
 
 <body>
 
-<h2 class="title">Login Form</h2>
+<header>
+  <img src="../Assets/logo.jpeg" id="logo" alt="Logo">
+  <div class="brand-name">Event Portal</div>
+</header>
 
-<form class="login-form">
+<main id="page">
+  <form id="loginForm" action="action_page.php" method="post">
 
-  <div class="imgcontainer">
-    <h3 class="logo">BEVENTS</h3>
-  </div>
+    <h2 id="loginTitle">Welcome Back</h2>
 
-  <div class="container">
-    <label><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" required>
+    <label for="username">Username</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      placeholder="Enter Username"
+      required
+    >
 
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" required>
-        
-    <button type="submit">Login</button>
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      placeholder="Enter Password"
+      required
+    >
 
-    <label>
-      <input type="checkbox" checked> Remember me
-    </label>
-  </div>
+    <button type="submit" id="loginBtn">Login</button>
+    <button type="button" id="cancelBtn">Cancel</button>
 
-  <div class="container bottom">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password</a></span>
-  </div>
-
-</form>
+  </form>
+</main>
 
 </body>
 </html>
