@@ -34,10 +34,16 @@ class Card{
         }
 
         if(typeof timeStart  !== "Time" ){
-            throw console.error("Variable time is type Time(hour, minute, standard)")
+            throw console.error("Variable timeStart is type Time(hour, minute, standard)")
+        }else{
+            this.timeStart = timeStart;
         }
 
-
+        if(typeof timeEnd  !== "Time" ){
+            throw console.error("Variable timeEnd is type Time(hour, minute, standard)")
+        }else{
+            this.timeEnd = timeEnd;
+        }
     }
 
 }
@@ -58,7 +64,6 @@ class Date{
     constructor(day, month){
         this.day = day;
         this.month = month;
-
     }
 }
 
