@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
 
-
   <link rel="stylesheet" href="../Constants/Constants.css">
-
 </head>
 
 <body>
@@ -17,43 +15,49 @@
     <img src="../Assets/logo.jpeg" class="logo" alt="Logo">
     <div class="brand-name">BISON EVENT HUB</div>
   </a>
+
+  <!-- Optional: if you want a button on the right side like HomePg -->
+  <!-- <a href="AdminSignUp.html" id="admin-btn">Sign Up As Admin</a> -->
 </header>
 
-<main id="login-page">
+<!-- IMPORTANT: use .hero so the background image shows like homepage -->
+<main class="hero">
 
-  <form id="loginForm" action="action_page.php" method="post">
+  <!-- IMPORTANT: keep hero-content for correct centering -->
+  <div class="hero-content">
 
-    <div id="avatarContainer">
-      <img src="../Assets/logo.jpeg" id="avatar" alt="Avatar">
-      <button type="button" id="closeBtn" aria-label="Close">&times;</button>
-      <a href="HomePg.html" id="closeBtn">&times;</a>
-    </div>
+    <!-- login-page id is not needed since .hero centers already,
+         but we can keep it if you want. Not required. -->
 
-    <div id="loginContent">
-      <h2 id="loginTitle">Welcome Back</h2>
+    <form id="loginForm" action="action_page.php" method="post">
 
-      <label for="username" id="usernameLabel">Username</label>
-      <input type="text" id="username" name="username" placeholder="Enter Username" required>
+      <div id="avatarContainer">
+        <img src="../Assets/logo.jpeg" id="avatar" alt="Avatar">
 
-      <label for="password" id="passwordLabel">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter Password" required>
-
-      <button type="submit" id="loginBtn">Login</button>
-
-      <div id="rememberRow">
-        <input type="checkbox" id="rememberMe" name="rememberMe" checked>
-        <label for="rememberMe" id="rememberLabel">Remember me</label>
+        <!-- ONE close button only (no JS needed) -->
+        <a href="HomePg.html" id="closeBtn" aria-label="Close">&times;</a>
       </div>
-    </div>
 
-    <div id="loginBottom">
-      <span id="forgotText">
-        Forgot <a href="#" id="forgotLink">password</a>
-      </span>
-    </div>
+      <div id="loginContent">
+        <div class="input">
+            <label for="username" id="usernameLabel">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+        </div>
+        <div class="input">
+            <label for="password" id="passwordLabel">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+        </div>
+        <button type="submit" id="loginBtn">Login</button>
 
-  </form>
+        <div id="rememberRow">
+          <input type="checkbox" id="rememberMe" name="rememberMe" checked>
+          <label for="rememberMe" id="rememberLabel">Remember me</label>
+        </div>
+      </div>
 
+    </form>
+
+  </div>
 </main>
 
 </body>
