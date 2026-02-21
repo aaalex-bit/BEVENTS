@@ -49,7 +49,7 @@
     <section id="events-section" class="events">
       <h2 class="section-title">Explore Events</h2>
       <button id="refreshBtn" class="refresh-btn">Refresh Events</button>
-      <div class="cards-container">
+      <div class="cards-container" id="live-events-grid">
         <!-- CARD 1 -->
         <article class="event-tile">
           <img class="event-img" src="../Assets/background.png" alt="Event 1" />
@@ -263,5 +263,81 @@
         <div class="footer-bottom">© 2025 BEVENTS. All rights reserved.</div>
       </div>
     </footer>
+
+    <script>
+    async function fetchAndDisplayEvents() {
+        const container = document.getElementById('live-events-grid');
+        
+        try {
+            const response = await fetch('http://localhost:3000/');
+            const json = await response.json();
+            
+            // Use the 'data' array from your JSON response
+            const events = json.data; 
+
+            if (!events || events.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No events found at the moment.</p>';
+                return;
+            }
+
+            container.innerHTML = ''; // Clear hardcoded cards
+
+            // Fix: Use 'events.forEach' instead of 'data.forEach'
+            events.forEach(event => {
+                let displayMonth = "EVENT";
+                let displayDay = "??";
+
+                // Date Formatting Logic
+                if (event.date && event.date.includes('-')) { 
+                    const dateParts = new Date(event.date + "T00:00:00");
+                    displayMonth = dateParts.toLocaleString('en-us', { month: 'short' }).toUpperCase();
+                    displayDay = dateParts.getDate();
+                } else if (event.date) { 
+                    const parts = event.date.split(' ');
+                    displayMonth = parts[0].toUpperCase();
+                    displayDay = parts[1] || "??";
+                }
+
+                const article = document.createElement('article');
+                article.className = 'event-tile';
+                
+                article.innerHTML = `
+                    <img class="event-img" src="${event.image}" alt="${event.title}" onerror="this.src='../Assets/background.png'" />
+                    <div class="event-details">
+                        <div class="date-box">
+                            <span class="month">${displayMonth}</span>
+                            <span class="day">${displayDay}</span>
+                        </div>
+
+                        <div>
+                            <div class="meta-row">
+                                <span class="tag" style="background: #3f72af; color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px;">${event.source}</span>
+                                <span class="time">${event.start_time} – ${event.end_time}</span>
+                            </div>
+
+                            <h3 class="event-title">${event.title}</h3>
+
+                            <a href="${event.link}" target="_blank" class="see-more-btn"> See Details </a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(article);
+            });
+        } catch (error) {
+            console.error("Error loading events:", error);
+            container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #112d4e;">Unable to connect to the Bison Events server. Please make sure the backend is running!</p>`;
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchAndDisplayEvents);
+
+    document.getElementById('refreshBtn').addEventListener('click', () => {
+        document.getElementById('live-events-grid').innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Refreshing events...</p>';
+        fetchAndDisplayEvents();
+        
+    });
+    </script>
+
+
   </body>
 </html>
