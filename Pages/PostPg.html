@@ -26,62 +26,38 @@
   <section id="posts" class="card">
     <h2>My Posts</h2>
 
-    <!-- Example post cards (later you’ll generate these with JS) -->
-    <div class="posts">
-      <article class="post">
-        <h3>SSA Study Session</h3>
-        <p class="meta">Feb 25 • Tier 214 • 5–8 PM</p>
-        <p>Come study together before reading week!</p>
-        <div class="post-actions">
-          <button class="btn small">Edit</button>
-          <button class="btn small danger">Delete</button>
-        </div>
-      </article>
-
-      <article class="post">
-        <h3>Club Game Night</h3>
-        <p class="meta">Mar 1 • E2-150 • 6 PM</p>
-        <p>Mario Kart + board games + snacks.</p>
-        <div class="post-actions">
-          <button class="btn small">Edit</button>
-          <button class="btn small danger">Delete</button>
-        </div>
-      </article>
-    </div>
-  </section>
-
   <section id="new" class="card">
     <h2>Post New Event</h2>
 
-    <form class="form">
+    <form class="form" id="eventForm">
       <label>
         Title
-        <input type="text" placeholder="Event title" required />
+        <input type="text" id="title" placeholder="Event title" required />
       </label>
 
       <div class="grid-2">
         <label>
           Date
-          <input type="date" required />
+          <input type="date" id="date" required />
         </label>
         <label>
           Time
-          <input type="time" required />
+          <input type="time" id="time" required />
         </label>
       </div>
 
       <label>
         Location
-        <input type="text" placeholder="Where is it?" required />
+        <input type="text" id="location" placeholder="Where is it?" required />
       </label>
 
       <label>
         Description
-        <textarea rows="5" placeholder="Details about the event..." required></textarea>
+        <textarea id="description" rows="5" placeholder="Details about the event..." required></textarea>
       </label>
       <label>
         Event Link
-        <input type="text" placeholder="Event title">
+        <input type="text" id="eventLink" placeholder="Event title">
       </label>
       <label>
         Upload Image
@@ -92,7 +68,8 @@
       <button class="btn" type="submit">Publish</button>
     </form>
   </section>
+  </section>
 </main>
-</main>
+<script src="../Firebase/Scrape/PostHandler.js"></script>
 </body>
 </html>
