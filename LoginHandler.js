@@ -24,13 +24,19 @@ const firebaseConfig = {
 
 
 loginbutton.addEventListener('click', async(e)=>{
+    //values
     const email = document.querySelector('#username').value
     const password = document.querySelector("#password").value
 
+
+    //handles invalid email and password types
     if(email.trim() === '' || password.trim===''){
         alert('email or password incorrect or not filled out')
     }else{
+
+        //FIREBASE SIGNING IN
         try{
+            
             const app = initializeApp(firebaseConfig);
             const analytics = getAnalytics(app);
             const auth = getAuth();
@@ -40,7 +46,6 @@ loginbutton.addEventListener('click', async(e)=>{
             const user = userCredential.user;
             // ...
             console.log("signed in")
-
             
             window.location.href = 'HomePg.html'
         })
@@ -50,24 +55,10 @@ loginbutton.addEventListener('click', async(e)=>{
             console.log("error")
     });
         }catch (error){
-            alert(error)
-        }finally{
             alert('Login might be down for now try another time')
-
+        }finally{
         }
     }
     
    
-
-/*
-    
-
-
-    
-    */
 })
-
-
-function newWindow(){
-    window.location.href= "https.google.com";
-}
