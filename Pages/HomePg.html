@@ -19,7 +19,7 @@
       <img src="../Assets/logo.jpeg" alt="BEVENTS Logo" class="logo" />
       <h1 class="brand-name">BISONS EVENTS HUB</h1>
     </div>
-
+    
       <nav class="admin-btn-div">
         <a id="admin-btn" href="./LoginPg.html">Sign Up as Admin</a>
       </nav>
@@ -229,6 +229,11 @@
       </div>
     </section>
     <footer class="footer">
+        <div class="footer-waves" aria-hidden="true">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+      </div>
       <div class="footer-container">
         <div class="footer-brand">
           <h2>BISONS EVENTS HUB</h2>
@@ -340,147 +345,7 @@
         
     });
     </script>
-    <!--search bar logic-->
-<!-- 
-  <script>
-let allEvents = [];
 
-function normalizeText(s) {
-  return (s || "").toString().toLowerCase().trim();
-}
-
-function renderEvents(events) {
-  const container = document.getElementById("live-events-grid");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  if (!events || events.length === 0) {
-    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">No events found.</p>`;
-    return;
-  }
-
-  events.forEach((event) => {
-    let displayMonth = "TBD";
-    let displayDay = "??";
-
-    if (event.date && event.date.includes("-")) {
-      const d = new Date(event.date + "T00:00:00");
-      displayMonth = d.toLocaleString("en-us", { month: "short" }).toUpperCase();
-      displayDay = d.getDate();
-    } else if (event.date) {
-      const parts = event.date.split(" ");
-      displayMonth = (parts[0] || "TBD").toUpperCase();
-      displayDay = parts[1] || "??";
-    }
-
-    const timeText =
-      event.start_time && event.end_time
-        ? `${event.start_time} – ${event.end_time}`
-        : event.start_time || "Time N/A";
-
-    const article = document.createElement("article");
-    article.className = "event-tile";
-
-    article.innerHTML = `
-    <img class="event-img" src="${event.image || "../Assets/background.png"}" alt="${event.title || "Event"}"
-        onerror="this.src='../Assets/background.png'" />
-    <div class="event-details">
-      <div class="date-box">
-        <span class="month">${displayMonth}</span>
-        <span class="day">${displayDay}</span>
-      </div>
-      <div class="event-text">
-        <div class="meta-row">
-          <span class="tag">${event.source || "Event"}</span>
-          <span class="time">${timeText}</span>
-        </div>
-        <h3 class="event-title">${event.title || "Untitled Event"}</h3>
-        <button onclick="viewDetails('${encodeURIComponent(JSON.stringify(event))}')" class="see-more-btn">
-          See Details
-        </button>
-      </div>
-    </div>
-  `;
-
-    container.appendChild(article);
-  });
-}
-
-function applySearch() {
-  const input = document.getElementById("search-input");
-  const q = normalizeText(input?.value);
-
-  if (!q) {
-    renderEvents(allEvents);
-    return;
-  }
-
-  const filtered = allEvents.filter((ev) => {
-    const haystack = [
-      ev.title,
-      ev.date,
-      ev.start_time,
-      ev.end_time,
-      ev.source
-    ].map(normalizeText).join(" ");
-
-    return haystack.includes(q);
-  });
-
-  renderEvents(filtered);
-}
-
-async function loadEvents() {
-  const container = document.getElementById("live-events-grid");
-  try {
-    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">Loading events...</p>`;
-
-    const res = await fetch("http://localhost:3000/");
-    const json = await res.json();
-    allEvents = json.data || [];
-
-    renderEvents(allEvents);
-  } catch (error) {
-    console.error("Error loading events:", error);
-    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #112d4e;">
-      Unable to connect to the Bison Events server. Please make sure the backend is running!
-    </p>`;
-  }
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadEvents();
-
-  const btn = document.getElementById("search-btn");
-  if (btn) btn.addEventListener("click", applySearch);
-
-  const input = document.getElementById("search-input");
-  if (input) {
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") applySearch();
-    });
-
-    input.addEventListener("input", applySearch); // live search
-  }
-
-  const refreshBtn = document.getElementById("refreshBtn");
-  if (refreshBtn) {
-    refreshBtn.addEventListener("click", loadEvents);
-  }
-});
-
-function viewDetails(eventDataJson) {
-  const eventData = JSON.parse(decodeURIComponent(eventDataJson));
-  // Save the specific event data to localStorage
-  localStorage.setItem('selectedEvent', JSON.stringify(eventData));
-  // Redirect to the detail page
-  window.location.href = 'DetailPg.html';
-}
-
-</script>
-
--->
 <script>
 
 let allEvents = [];
