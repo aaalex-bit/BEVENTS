@@ -424,11 +424,8 @@ async function loadEvents() {
   try {
     container.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">Loading events...</p>`;
 
-    // Use ONE endpoint only (same one your backend supports)
     const res = await fetch("http://localhost:3000/");
     const json = await res.json();
-
-    // Your current backend seems to return { data: [...] }
     allEvents = json.data || [];
 
     renderEvents(allEvents);
