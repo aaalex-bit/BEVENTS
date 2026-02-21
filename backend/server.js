@@ -238,3 +238,50 @@ app.delete("/manual-events/:id", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Scraper server live on http://localhost:${PORT}`);
 });
+
+// Update manual event (admin edit)
+app.put("/manual-events/:id", (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      title,
+      date,
+      start_time = "",
+      end_time = "",
+      location = "",
+      description = "",
+      link = "",
+      image = "",
+      source = "Manual"
+    } = req.body;
+
+    const manualEvents = readManualEvents();
+    const index = manualEvents.findIndex((ev) => ev.id === id);
+
+    if (index === -1) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    // keep existing image if frontend sends empty image during edit
+    const existing = manualEvents[index];
+
+    manualEvents[index] = {
+      ...existing,
+      title,
+      date,
+      start_time,
+      end_time,
+      location,
+      description,
+      link,
+      image: image || existing.image || "",
+      source
+    };
+
+    writeManualEvents(manualEvents);
+    res.json({ message: "Event updated", event: manualEvents[index] });
+  } catch (err) {
+    console.error("PUT /manual-events/:id error:", err);
+    res.status(500).json({ error: "Failed to update event" });
+  }
+});
