@@ -8,6 +8,9 @@
 
   <link rel="stylesheet" href="../Constants/Constants.css">
 
+    
+</script>
+
 </head>
 
 <body>
@@ -21,7 +24,7 @@
 
 <main id="login-page">
 
-  <form id="loginForm" action="action_page.php" method="post">
+  <form id="loginForm">
 
     <div id="avatarContainer">
       <img src="../Assets/logo.jpeg" id="avatar" alt="Avatar">
@@ -38,8 +41,8 @@
       <label for="password" id="passwordLabel">Password</label>
       <input type="password" id="password" name="password" placeholder="Enter Password" required>
 
-      <button type="submit" id="loginBtn">Login</button>
-
+      <button  type="button" id="loginBtn" >Login</button>
+     
       <div id="rememberRow">
         <input type="checkbox" id="rememberMe" name="rememberMe" checked>
         <label for="rememberMe" id="rememberLabel">Remember me</label>
@@ -55,6 +58,6 @@
   </form>
 
 </main>
-
+<script type="module"  src="../LoginHandler.js"></script>
 </body>
 </html>

@@ -25,7 +25,7 @@ class InstaScraper:
        
     
     
-    def getInfo(self):
+    def getInfo(self):#takes care of importing
         value ={
             "Image" : "",
             "Date" : "",

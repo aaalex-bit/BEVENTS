@@ -8,15 +8,16 @@
 * @param {Time} timeStart - Time Object
 * @param {Time} timeEnd -Time Object
 * @param {string} image
+* @param {String} location
 */
 class Card{
-    constructor(title,from,image, date,timeStart, timeEnd, linkToWebsite, details, IsScraped){
+    constructor(title,from,image, date,timeStart, timeEnd, linkToWebsite, details, IsScraped, location){
         this.title = title;
         this.from = from
         this.linkToWebsite = linkToWebsite;
         this.details = details;
         this.IsScraped = IsScraped;
-        
+        this.location = location
 
         if(typeof image !== 'string'){
             this.image  = "../Assets/logo.png"//placeholder      
