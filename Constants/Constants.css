@@ -629,6 +629,12 @@ nav {
   margin-right: 100px;
 }
 
+.input label{
+  width:20% ;
+
+  
+}
+
 /* Stop the global capitalize inside login */
 #loginForm,
 #loginForm * {
@@ -853,7 +859,7 @@ nav {
 
   #loginContent input[type="text"],
   #loginContent input[type="password"] {
-    width: 100%;
+    width: 90%;
     margin-left: 0;
   }
 
@@ -878,4 +884,14 @@ nav {
   .event-img {
     height: 200px;
   }
+
+  .input label{
+    width: 40%;
+    font-size: 15px;
+    margin-right: 30px;
+    margin-left: 10px ;
+    text-align: left;
+  }
+
+ 
 }
