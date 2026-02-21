@@ -603,7 +603,6 @@ nav {
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 6px solid rgba(249, 247, 247, 0.9);
 }
 
 /* X close button */
