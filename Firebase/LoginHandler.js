@@ -1,7 +1,8 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,18 +20,18 @@ const firebaseConfig = {
 
 
 
-
- const loginbutton = document.querySelector("#loginBtn")
+//handler to identify the login button
+const loginbutton = document.querySelector("#loginBtn")
 
 
 loginbutton.addEventListener('click', async(e)=>{
-    //values
+    //user credentials for logging in 
     const email = document.querySelector('#username').value
     const password = document.querySelector("#password").value
 
-
+    
     //handles invalid email and password types
-    if(email.trim() === '' || password.trim===''){
+    if(!requirementsPass(email,password)){
         alert('email or password incorrect or not filled out')
     }else{
 
@@ -47,18 +48,40 @@ loginbutton.addEventListener('click', async(e)=>{
             // ...
             console.log("signed in")
             
+            createSignedInCookie(email);
             window.location.href = 'HomePg.html'
         })
         .catch((error) => {
+            console.log("error")
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log("error")
+            
     });
         }catch (error){
             alert('Login might be down for now try another time')
-        }finally{
         }
     }
     
    
 })
+
+//Handles email requirements returns boolean type
+function requirementsPass(email, password){
+    let passed =true;
+    if(password.trim==='' || password.length<6){
+        passed = false;
+    }
+    if(email.trim() === '' || !email.includes("@")){
+        passed = false;
+    }
+
+    return passed;
+}
+
+
+//this handles the process of keeping the user/clubs signed in,
+//they are allowed to post events
+function createSignedInCookie(email){
+
+    let name = document.cookie = "name = "+ email;
+}

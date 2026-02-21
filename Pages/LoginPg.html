@@ -28,10 +28,10 @@
 
 
 
-    <form id="loginForm" action="action_page.php" method="post">
+    <form id="loginForm" >
 
       <div id="avatarContainer">
-        <img src="../Assets/nobackPicture2.png" id="avatar" alt="Avatar">
+        <img src="../Assets/logo.jpeg" id="avatar" alt="Avatar">
 
 
         <a href="HomePg.html" id="closeBtn" aria-label="Close">&times;</a>
@@ -39,14 +39,14 @@
 
       <div id="loginContent">
         <div class="input">
-            <label for="username" id="usernameLabel">Username</label>
-            <input type="text" id="username" name="username" placeholder="Enter Username" required>
+            <label for="username" id="usernameLabel">Email</label>
+            <input type="text" id="username" name="username" placeholder="Enter Email" required>
         </div>
         <div class="input">
             <label for="password" id="passwordLabel">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter Password" required>
         </div>
-        <button type="submit" id="loginBtn">Login</button>
+        <button type="button" id="loginBtn">Login</button>
 
 
       </div>
@@ -56,5 +56,6 @@
   </div>
 </main>
 
+<script type="module" src="/Firebase/LoginHandler.js"></script>
 </body>
 </html>
