@@ -115,6 +115,37 @@
       © 2025 BEVENTS. All rights reserved.
     </div>
   </footer>
-<script src="../Firebase/Scrape/PostHandler.js"></script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Get the data from localStorage
+    const eventDataString = localStorage.getItem('selectedEvent');
+    
+    if (!eventDataString) {
+      console.error("No event data found!");
+      return;
+    }
+
+    const event = JSON.parse(eventDataString);
+
+    // 2. Map the data to your HTML IDs
+    document.getElementById('detail-title').textContent = event.title;
+    document.getElementById('detail-img').src = event.image || "../Assets/background.png";
+    document.getElementById('detail-date').textContent = event.date;
+    document.getElementById('detail-time').textContent = `${event.start_time} - ${event.end_time}`;
+    document.getElementById('detail-price').textContent = "Free"; // or event.price if available
+    document.getElementById('detail-location').textContent = event.source;
+
+    // 3. Set the "More Info" button to the actual external link
+    const infoBtn = document.getElementById('more-info-btn');
+    infoBtn.href = event.link;
+
+    // 4. Update Google Calendar link (Optional but cool)
+    const calendarBtn = document.getElementById('add-calendar-btn');
+    const googleTitle = encodeURIComponent(event.title);
+    calendarBtn.href = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${googleTitle}&details=Check+out+this+event+from+BEVENTS!&location=${event.source}`;
+  });
+</script>
 </body>
 </html>
