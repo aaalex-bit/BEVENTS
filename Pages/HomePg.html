@@ -20,7 +20,7 @@
       <h1 class="brand-name">BISONS EVENTS HUB</h1>
     </div>
 
-      <nav>
+      <nav class="admin-btn-div">
         <a id="admin-btn" href="./LoginPg.html">Sign Up as Admin</a>
       </nav>
     </header>
@@ -578,6 +578,15 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("search-input")?.addEventListener("input", applySearch);
   document.getElementById("refreshBtn")?.addEventListener("click", loadEvents);
 });
+  </script>
+  <script>
+    let profile = document.querySelector(".admin-btn-div")
+    console.log("working1")
+    if(document.cookie.split(";").includes("email")){
+      console.log("working")
+        profile.innerHTML = '<button id ="admin-btn" src="PostPg.html" >Post an Event<button>';
+
+    }
   </script>
   </body>
 </html>

@@ -1,9 +1,10 @@
-const express = require("express");
-const axios = require("axios");
-const cheerio = require("cheerio");
-const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
+import express from "express";
+import axios from "axios";
+import * as cheerio from "cheerio";
+import cors from "cors";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const PORT = 3000;
@@ -12,9 +13,11 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" })); // allow base64 image uploads
 
 // Path to manual events JSON
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const manualEventsPath = path.join(__dirname, "..", "Database", "manualEvents.json");
 
-// ---------- Manual JSON Helpers ----------
 function readManualEvents() {
   try {
     if (!fs.existsSync(manualEventsPath)) {
@@ -31,7 +34,6 @@ function readManualEvents() {
 function writeManualEvents(events) {
   fs.writeFileSync(manualEventsPath, JSON.stringify(events, null, 2), "utf8");
 }
-
 // ---------- SCRAPER LOGIC ----------
 async function getUmsuEvents() {
   try {

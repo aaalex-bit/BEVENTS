@@ -31,7 +31,7 @@ loginbutton.addEventListener('click', async(e)=>{
 
     
     //handles invalid email and password types
-    if(!requirementsPass()){
+    if(!requirementsPass(email,password)){
         alert('email or password incorrect or not filled out')
     }else{
 
@@ -67,7 +67,7 @@ loginbutton.addEventListener('click', async(e)=>{
 
 //Handles email requirements returns boolean type
 function requirementsPass(email, password){
-    passed =true;
+    let passed =true;
     if(password.trim==='' || password.length<6){
         passed = false;
     }
