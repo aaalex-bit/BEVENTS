@@ -116,7 +116,7 @@ header {
 }
 
 #search-input {
-  width: 450px;
+  max-width: 450px;
   padding: 18px 24px;
   font-size: 18px;
   border-radius: 50px 0 0 50px;
@@ -165,6 +165,26 @@ header {
   align-items: start;
 }
 
+.detail-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+  align-items: flex-start; /* keeps left aligned */
+}
+
+.detail-actions .primary-btn,
+.detail-actions .secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 600;
+  line-height: 1;
+  min-width: 180px; /* makes them feel consistent */
+}
 /* responsive */
 @media (max-width: 1100px) {
   .cards-container {
@@ -240,7 +260,6 @@ header {
 }
 
 .see-more-btn {
-  margin-top: 12px;
   background: var(--third);
   color: var(--first);
   padding: 10px 16px;
@@ -248,6 +267,8 @@ header {
   font-weight: 800;
   cursor: pointer;
   transition: 0.25s ease;
+  display: inline-block;
+  margin-top: 14px;
 }
 
 .see-more-btn:hover {
@@ -314,6 +335,7 @@ header {
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 0.8s ease forwards;
+  margin: 0 0 14px 0;
 }
 
 @keyframes fadeUp {
@@ -370,6 +392,22 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 25px;
+}
+
+.refresh-btn {
+  margin: 0 auto 40px auto;
+  display: block;
+  background: var(--third);
+  color: var(--first);
+  padding: 10px 22px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background: var(--fourth);
 }
 
 /* ===== CARDS ===== */
@@ -487,8 +525,9 @@ nav {
 .detail-actions {
   margin-top: 22px;
   display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
 }
 
 .primary-btn {
@@ -496,6 +535,21 @@ nav {
   color: var(--first);
   padding: 12px 18px;
   border-radius: 14px;
+}
+
+.secondary-btn {
+  background: var(--third);
+  color: var(--first);
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.secondary-btn:hover {
+  background: var(--fourth);
 }
 /* =========================
    LOGIN PAGE STYLES (ADDED)
@@ -511,31 +565,39 @@ nav {
 
 /* Card */
 #loginForm {
-  width: 100%;
-  max-width: 520px;
-  background: rgba(
-    249,
-    247,
-    247,
-    0.92
-  ); /* var(--first) with slight transparency */
+  width: 800px;
+  height: 500px;
+  background: transparent; /* var(--first) with slight transparency */
   border-radius: var(--border-radius);
   border: 1px solid rgba(17, 45, 78, 0.18);
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
+  backdrop-filter: blur(20px);
+  animation: loginFade 0.8s ease forwards;
+}
+
+@keyframes loginFade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Top avatar section like your screenshot */
+
 #avatarContainer {
-  background: rgba(219, 226, 239, 0.75); /* var(--second) */
+  background: transparent; /* var(--second) */
   padding: 26px 0 18px;
   position: relative;
   display: flex;
   justify-content: center;
+  backdrop-filter: blur;
   align-items: center;
 }
 
-/* Avatar */
 #avatar {
   width: 150px;
   height: 150px;
@@ -560,6 +622,12 @@ nav {
 /* Main content */
 #loginContent {
   padding: 22px 24px 18px;
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+  margin-right: 100px;
 }
 
 /* Stop the global capitalize inside login */
@@ -588,14 +656,14 @@ nav {
 /* Inputs */
 #loginContent input[type="text"],
 #loginContent input[type="password"] {
-  width: 100%;
-  display: block;
-  box-sizing: border-box;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.22);
+  width: 300px;
+  padding: 16px 18px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   background: #fff;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Focus style */
@@ -606,7 +674,7 @@ nav {
 
 /* Login button */
 #loginBtn {
-  width: 100%;
+  width: 200px;
   margin-top: 16px;
   padding: 14px 16px;
   border-radius: 10px;
@@ -640,28 +708,11 @@ nav {
   color: rgba(17, 45, 78, 0.85);
 }
 
-.tags-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.pill {
-  background: rgba(63, 114, 175, 0.12);
-  color: var(--third);
-  font-weight: 800;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-size: 14px;
-}
-
-.back-row {
-  margin-top: 10px;
-}
-
 .back-link {
   color: var(--third);
   font-weight: 800;
+  display: inline-block;
+  margin-top: 20px;
 }
 
 .back-link:hover {
@@ -670,64 +721,162 @@ nav {
 }
 
 /* small screens*/
+/* =========================
+   MOBILE FIX PACK
+   Paste at END of file
+   ========================= */
+
+/* Tablets + down */
 @media (max-width: 900px) {
+  header {
+    padding: 0 1rem;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+
+  .logo {
+    width: 52px;
+  }
+
+  #admin-btn {
+    padding: 9px 16px;
+    font-size: 13px;
+  }
+
+  .hero {
+    padding: 30px 16px;
+    min-height: auto;
+  }
+
+  .search-container {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  #search-input {
+    width: 100%;
+    max-width: none; /* important */
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+
+  #search-btn {
+    font-size: 16px;
+    padding: 14px 18px;
+  }
+
+  .events {
+    padding: 60px 6%;
+  }
+
+  .detail-page {
+    padding: 40px 6%;
+  }
+
   .detail-hero {
     grid-template-columns: 1fr;
+    gap: 26px;
   }
+
   .detail-info #detail-title {
-    font-size: 34px;
+    font-size: 32px;
+  }
+
+  .detail-actions .primary-btn,
+  .detail-actions .secondary-btn {
+    width: 100%;
+    min-width: 0; /* overrides your min-width */
+    justify-content: center;
   }
 }
-#loginBtn:hover {
-  background: var(--fourth);
-}
 
-/* Remember row */
-#rememberRow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-#rememberRow input {
-  width: 16px;
-  height: 16px;
-}
-
-/* Bottom bar like screenshot */
-#loginBottom {
-  background: rgba(219, 226, 239, 0.75); /* var(--second) */
-  padding: 16px 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Forgot link */
-#forgotText {
-  color: #000;
-  font-weight: 600;
-}
-
-#forgotLink {
-  color: #6a1b9a;
-  font-weight: 700;
-  text-decoration: underline;
-}
-
-/* Responsive */
+/* Phones */
 @media (max-width: 520px) {
-  #loginContent {
-    padding: 18px 16px 14px;
+  header {
+    padding: 10px 12px;
   }
 
-  #loginTitle {
+  nav {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand-name {
+    font-size: 16px;
+  }
+
+  #welcome-title {
+    font-size: 40px;
+  }
+
+  /* Search becomes stacked */
+  .search-container {
+    flex-direction: column;
+    border-radius: 18px;
+  }
+
+  #search-input {
+    border-radius: 18px 18px 0 0;
+  }
+
+  #search-btn {
+    width: 100%;
+    border-radius: 0 0 18px 18px;
+  }
+
+  /* Footer becomes 1 column */
+  .footer-container {
+    width: 92%;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* Login fixes */
+  #loginForm {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+  }
+
+  .input {
+    margin-right: 0;
+    justify-content: flex-start;
+  }
+
+  #loginContent input[type="text"],
+  #loginContent input[type="password"] {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #loginBtn {
+    width: 100%;
+  }
+
+  /* Cards spacing */
+  .section-title {
     font-size: 26px;
   }
 
-  #avatar {
-    width: 130px;
-    height: 130px;
+  .event-details {
+    grid-template-columns: 60px 1fr;
+    gap: 14px;
+  }
+
+  .event-title {
+    font-size: 18px;
+  }
+
+  .event-img {
+    height: 200px;
   }
 }
