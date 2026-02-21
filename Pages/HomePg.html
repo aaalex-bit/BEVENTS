@@ -22,7 +22,7 @@
 
       <nav class="admin-btn-div">
         <a id="admin-btn" href="./LoginPg.html">Sign Up as Admin</a>
-      </nav>
+      </nav>  
     </header>
     <section class="hero">
       <div class="hero-content">
@@ -581,12 +581,27 @@ window.addEventListener("DOMContentLoaded", () => {
   </script>
   <script>
     let profile = document.querySelector(".admin-btn-div")
-    console.log("working1")
-    if(document.cookie.split(";").includes("email")){
-      console.log("working")
-        profile.innerHTML = '<button id ="admin-btn" src="PostPg.html" >Post an Event<button>';
+    console.log(document.cookie)
+    let emailValue = document.cookie.match(new RegExp('(?:^|; )' + encodeURIComponent('email') + '=([^;]*)'));
+    if(!document.cookie.includes("email=;")){
+      
+        profile.innerHTML = '<button style= "background-color: white; color: black ;" id = "admin-btn" onclick=logOut()>log out</button><button id ="admin-btn" class="linktoPost" >Post an Event<button>';
 
     }
+
+    function logOut(){
+      document.cookie ="email=;"
+
+      console.log(document.cookie)
+      window.location.reload()
+    }
+
+    
+    
+    //handles the post event button
+    document.querySelector(".linktoPost").addEventListener('click', ()=>{
+      window.location.href = "PostPg.html"
+    })
   </script>
   </body>
 </html>
