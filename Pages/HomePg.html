@@ -478,6 +478,49 @@ function normalizeText(s) {
   return (s || "").toString().toLowerCase().trim();
 }
 
+function parseEventDateTime(event) {
+  // 1) Date parsing
+  let eventDate;
+
+  if (!event.date) {
+    return new Date(8640000000000000); // very far future if missing
+  }
+
+  // Manual events usually: YYYY-MM-DD
+  if (typeof event.date === "string" && event.date.includes("-")) {
+    eventDate = new Date(event.date + "T00:00:00");
+  } else {
+    // Scraped events might be like "FEB 23"
+    // Assume current year
+    const currentYear = new Date().getFullYear();
+    eventDate = new Date(`${event.date} ${currentYear}`);
+  }
+
+  if (isNaN(eventDate.getTime())) {
+    return new Date(8640000000000000); // fallback if bad date
+  }
+
+  // 2) Time parsing (handles "5:00 PM", "8:00 pm", etc.)
+  // default = start of day
+  let hours = 0;
+  let minutes = 0;
+
+  const timeText = (event.start_time || "").toString().trim();
+  const match = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+
+  if (match) {
+    hours = Number(match[1]);
+    minutes = Number(match[2]);
+    const ampm = match[3] ? match[3].toUpperCase() : null;
+
+    if (ampm === "PM" && hours !== 12) hours += 12;
+    if (ampm === "AM" && hours === 12) hours = 0;
+  }
+
+  eventDate.setHours(hours, minutes, 0, 0);
+  return eventDate;
+}
+
 // THE CORE RENDER FUNCTION
 function renderEvents(events) {
   const container = document.getElementById("live-events-grid");
@@ -551,8 +594,11 @@ async function loadEvents() {
   try {
     const res = await fetch("http://localhost:3000/");
     const json = await res.json();
-    allEvents = json.data || [];
-    renderEvents(allEvents);
+    allEvents = (json.data || []).sort((a, b) => {
+  return parseEventDateTime(a) - parseEventDateTime(b);
+});
+
+renderEvents(allEvents);
   } catch (error) {
     console.error("Error:", error);
     container.innerHTML = `<p>Error connecting to server.</p>`;
