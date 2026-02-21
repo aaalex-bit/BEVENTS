@@ -11,7 +11,7 @@
 </head>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
- 
+
 </script>
 <body>
   <header>
@@ -329,6 +329,7 @@
     });
     </script>
     <!--search bar logic-->
+<!-- 
   <script>
 let allEvents = [];
 
@@ -370,26 +371,25 @@ function renderEvents(events) {
     article.className = "event-tile";
 
     article.innerHTML = `
-      <img class="event-img" src="${event.image || "../Assets/background.png"}" alt="${event.title || "Event"}"
-           onerror="this.src='../Assets/background.png'" />
-      <div class="event-details">
-        <div class="date-box">
-          <span class="month">${displayMonth}</span>
-          <span class="day">${displayDay}</span>
-        </div>
-
-        <div class="event-text">
-          <div class="meta-row">
-            <span class="tag">${event.source || "Event"}</span>
-            <span class="time">${timeText}</span>
-          </div>
-
-          <h3 class="event-title">${event.title || "Untitled Event"}</h3>
-
-          <a href="${event.link || "#"}" target="_blank" class="see-more-btn">See Details</a>
-        </div>
+    <img class="event-img" src="${event.image || "../Assets/background.png"}" alt="${event.title || "Event"}"
+        onerror="this.src='../Assets/background.png'" />
+    <div class="event-details">
+      <div class="date-box">
+        <span class="month">${displayMonth}</span>
+        <span class="day">${displayDay}</span>
       </div>
-    `;
+      <div class="event-text">
+        <div class="meta-row">
+          <span class="tag">${event.source || "Event"}</span>
+          <span class="time">${timeText}</span>
+        </div>
+        <h3 class="event-title">${event.title || "Untitled Event"}</h3>
+        <button onclick="viewDetails('${encodeURIComponent(JSON.stringify(event))}')" class="see-more-btn">
+          See Details
+        </button>
+      </div>
+    </div>
+  `;
 
     container.appendChild(article);
   });
@@ -460,6 +460,127 @@ window.addEventListener("DOMContentLoaded", () => {
     refreshBtn.addEventListener("click", loadEvents);
   }
 });
+
+function viewDetails(eventDataJson) {
+  const eventData = JSON.parse(decodeURIComponent(eventDataJson));
+  // Save the specific event data to localStorage
+  localStorage.setItem('selectedEvent', JSON.stringify(eventData));
+  // Redirect to the detail page
+  window.location.href = 'DetailPg.html';
+}
+
 </script>
+
+-->
+<script>
+
+let allEvents = [];
+
+// Helper to normalize text for searching
+function normalizeText(s) {
+  return (s || "").toString().toLowerCase().trim();
+}
+
+// THE CORE RENDER FUNCTION
+function renderEvents(events) {
+  const container = document.getElementById("live-events-grid");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (!events || events.length === 0) {
+    container.innerHTML = `<p style="grid-column: 1/-1; text-align: center;">No events found.</p>`;
+    return;
+  }
+
+  events.forEach((event) => {
+    // Standardize Date Display
+    let displayMonth = "TBD";
+    let displayDay = "??";
+    if (event.date && event.date.includes("-")) {
+      const d = new Date(event.date + "T00:00:00");
+      displayMonth = d.toLocaleString("en-us", { month: "short" }).toUpperCase();
+      displayDay = d.getDate();
+    } else if (event.date) {
+      const parts = event.date.split(" ");
+      displayMonth = (parts[0] || "TBD").toUpperCase();
+      displayDay = parts[1] || "??";
+    }
+
+    const timeText = event.start_time && event.end_time
+        ? `${event.start_time} – ${event.end_time}`
+        : event.start_time || "Time N/A";
+
+    // Create the card
+    const article = document.createElement("article");
+    article.className = "event-tile";
+
+    // IMPORTANT: We use a button that triggers viewDetails
+    // We stringify the event object so it can be passed as a parameter
+    const eventString = encodeURIComponent(JSON.stringify(event));
+
+    article.innerHTML = `
+      <img class="event-img" src="${event.image || "../Assets/background.png"}" 
+           alt="${event.title}" onerror="this.src='../Assets/background.png'" />
+      <div class="event-details">
+        <div class="date-box">
+          <span class="month">${displayMonth}</span>
+          <span class="day">${displayDay}</span>
+        </div>
+        <div class="event-text">
+          <div class="meta-row">
+            <span class="tag">${event.source}</span>
+            <span class="time">${timeText}</span>
+          </div>
+          <h3 class="event-title">${event.title}</h3>
+          <button onclick="viewDetails('${eventString}')" class="see-more-btn">See Details</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(article);
+  });
+}
+
+// SAVE TO STORAGE AND MOVE TO DETAIL PAGE
+function viewDetails(eventStr) {
+  const eventData = JSON.parse(decodeURIComponent(eventStr));
+  localStorage.setItem('selectedEvent', JSON.stringify(eventData));
+  window.location.href = 'DetailPg.html';
+}
+
+// FETCH FROM SERVER
+async function loadEvents() {
+  const container = document.getElementById("live-events-grid");
+  try {
+    const res = await fetch("http://localhost:3000/");
+    const json = await res.json();
+    allEvents = json.data || [];
+    renderEvents(allEvents);
+  } catch (error) {
+    console.error("Error:", error);
+    container.innerHTML = `<p>Error connecting to server.</p>`;
+  }
+}
+
+// SEARCH LOGIC
+function applySearch() {
+  const q = normalizeText(document.getElementById("search-input")?.value);
+  if (!q) { renderEvents(allEvents); return; }
+  
+  const filtered = allEvents.filter((ev) => {
+    const haystack = [ev.title, ev.source].map(normalizeText).join(" ");
+    return haystack.includes(q);
+  });
+  renderEvents(filtered);
+}
+
+// INITIALIZE
+window.addEventListener("DOMContentLoaded", () => {
+  loadEvents();
+  document.getElementById("search-btn")?.addEventListener("click", applySearch);
+  document.getElementById("search-input")?.addEventListener("input", applySearch);
+  document.getElementById("refreshBtn")?.addEventListener("click", loadEvents);
+});
+  </script>
   </body>
 </html>
