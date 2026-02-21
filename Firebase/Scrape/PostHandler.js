@@ -6,6 +6,7 @@ const imageInput = document.getElementById("imageInput");
 const preview = document.getElementById("preview");
 const sortSelect = document.getElementById("sortPosts");
 const editingEventIdInput = document.getElementById("editingEventId");
+const cancelEditBtn = document.getElementById("cancelEditBtn");
 
 const API_BASE = "http://localhost:3000";
 
@@ -29,12 +30,34 @@ function formatTime(timeValue) {
   });
 }
 
+function toInputTime(prettyTime) {
+  if (!prettyTime || prettyTime === "N/A") return "";
+  const match = prettyTime.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return "";
+
+  let hour = Number(match[1]);
+  const minute = match[2];
+  const ampm = match[3].toUpperCase();
+
+  if (ampm === "PM" && hour !== 12) hour += 12;
+  if (ampm === "AM" && hour === 12) hour = 0;
+
+  return `${String(hour).padStart(2, "0")}:${minute}`;
+}
+
+function getNumericIdPart(id) {
+  // manual-1730000000000 -> 1730000000000
+  if (!id) return 0;
+  const parts = String(id).split("-");
+  return Number(parts[parts.length - 1]) || 0;
+}
+
 function sortPostsList(posts, mode) {
   const arr = [...posts];
 
   switch (mode) {
     case "oldest":
-      arr.sort((a, b) => Number(a.id?.split("-")[1] || 0) - Number(b.id?.split("-")[1] || 0));
+      arr.sort((a, b) => getNumericIdPart(a.id) - getNumericIdPart(b.id));
       break;
     case "dateAsc":
       arr.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
@@ -50,11 +73,21 @@ function sortPostsList(posts, mode) {
       break;
     case "newest":
     default:
-      arr.sort((a, b) => Number(b.id?.split("-")[1] || 0) - Number(a.id?.split("-")[1] || 0));
+      arr.sort((a, b) => getNumericIdPart(b.id) - getNumericIdPart(a.id));
       break;
   }
 
   return arr;
+}
+
+function resetFormState() {
+  form.reset();
+  preview.style.display = "none";
+  preview.src = "";
+  editingEventIdInput.value = "";
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.textContent = "Publish";
 }
 
 // ---------- Image preview ----------
@@ -105,9 +138,8 @@ function createPostCard(eventData) {
     document.getElementById("location").value = eventData.location || "";
     document.getElementById("description").value = eventData.description || "";
     document.getElementById("eventLink").value = eventData.link || "";
-    editingEventIdInput.value = eventData.id;
+    editingEventIdInput.value = eventData.id || "";
 
-    // keep old image preview if exists
     if (eventData.image) {
       preview.src = eventData.image;
       preview.style.display = "block";
@@ -132,7 +164,10 @@ function createPostCard(eventData) {
         method: "DELETE"
       });
 
-      if (!res.ok) throw new Error("Delete failed");
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || "Delete failed");
+      }
 
       await loadManualPosts();
     } catch (err) {
@@ -162,24 +197,10 @@ function renderManualPosts() {
   });
 }
 
-// Convert "5:00 PM" to "17:00" for <input type="time">
-function toInputTime(prettyTime) {
-  if (!prettyTime || prettyTime === "N/A") return "";
-  // Handles values like "5:00 PM"
-  const match = prettyTime.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-  if (!match) return "";
-  let hour = Number(match[1]);
-  const minute = match[2];
-  const ampm = match[3].toUpperCase();
-
-  if (ampm === "PM" && hour !== 12) hour += 12;
-  if (ampm === "AM" && hour === 12) hour = 0;
-
-  return `${String(hour).padStart(2, "0")}:${minute}`;
-}
-
 // ---------- Load ----------
 async function loadManualPosts() {
+  if (!postsContainer) return;
+
   postsContainer.innerHTML = `<p>Loading your posts...</p>`;
 
   try {
@@ -204,7 +225,6 @@ form?.addEventListener("submit", async (e) => {
   const description = document.getElementById("description").value.trim();
   const link = document.getElementById("eventLink").value.trim();
 
-  // If editing and no new image chosen, keep existing preview src
   let imageBase64 = "";
   const file = imageInput.files[0];
 
@@ -215,12 +235,12 @@ form?.addEventListener("submit", async (e) => {
       reader.readAsDataURL(file);
     });
   } else if (editingEventIdInput.value && preview.src) {
-    imageBase64 = preview.src; // keep previous image
+    imageBase64 = preview.src; // keep old image while editing
   }
 
   const payload = {
     title,
-    date: rawDate,
+    date: rawDate,               // YYYY-MM-DD
     start_time: formatTime(rawTime),
     end_time: "",
     location,
@@ -254,15 +274,7 @@ form?.addEventListener("submit", async (e) => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "Save failed");
 
-    // Reset form state
-    form.reset();
-    preview.style.display = "none";
-    preview.src = "";
-    editingEventIdInput.value = "";
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn) submitBtn.textContent = "Publish";
-
+    resetFormState();
     await loadManualPosts();
 
     alert(editingId ? "Event updated ✅" : "Event published ✅");
@@ -274,6 +286,11 @@ form?.addEventListener("submit", async (e) => {
 
 // ---------- Sort ----------
 sortSelect?.addEventListener("change", renderManualPosts);
+
+// ---------- Cancel Edit ----------
+cancelEditBtn?.addEventListener("click", () => {
+  resetFormState();
+});
 
 // ---------- Init ----------
 window.addEventListener("DOMContentLoaded", loadManualPosts);

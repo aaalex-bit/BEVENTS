@@ -1,287 +1,296 @@
-const express = require("express");
-const axios = require("axios");
-const cheerio = require("cheerio");
-const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
+console.log("PostHandler loaded ✅");
 
-const app = express();
-const PORT = 3000;
+const form = document.getElementById("eventForm");
+const postsContainer = document.getElementById("postsContainer");
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const sortSelect = document.getElementById("sortPosts");
+const editingEventIdInput = document.getElementById("editingEventId");
+const cancelEditBtn = document.getElementById("cancelEditBtn");
 
-app.use(cors());
-app.use(express.json({ limit: "10mb" })); // for base64 image uploads
+const API_BASE = "http://localhost:3000";
 
-// JSON file for manual events
-const manualEventsPath = path.join(__dirname, "..", "Database", "manualEvents.json");
+let manualPosts = [];
 
-// ---------- Manual JSON Helpers ----------
-function readManualEvents() {
-  try {
-    if (!fs.existsSync(manualEventsPath)) {
-      fs.writeFileSync(manualEventsPath, "[]", "utf8");
+// ---------- Utils ----------
+function formatDateForCard(dateValue) {
+  if (!dateValue) return "";
+  const d = new Date(dateValue + "T00:00:00");
+  return d.toLocaleDateString("en-CA", { month: "short", day: "numeric" });
+}
+
+function formatTime(timeValue) {
+  if (!timeValue) return "";
+  const [hour, minute] = timeValue.split(":");
+  const d = new Date();
+  d.setHours(Number(hour), Number(minute));
+  return d.toLocaleTimeString("en-CA", {
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+function toInputTime(prettyTime) {
+  if (!prettyTime || prettyTime === "N/A") return "";
+  const match = prettyTime.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return "";
+
+  let hour = Number(match[1]);
+  const minute = match[2];
+  const ampm = match[3].toUpperCase();
+
+  if (ampm === "PM" && hour !== 12) hour += 12;
+  if (ampm === "AM" && hour === 12) hour = 0;
+
+  return `${String(hour).padStart(2, "0")}:${minute}`;
+}
+
+function getNumericIdPart(id) {
+  // manual-1730000000000 -> 1730000000000
+  if (!id) return 0;
+  const parts = String(id).split("-");
+  return Number(parts[parts.length - 1]) || 0;
+}
+
+function sortPostsList(posts, mode) {
+  const arr = [...posts];
+
+  switch (mode) {
+    case "oldest":
+      arr.sort((a, b) => getNumericIdPart(a.id) - getNumericIdPart(b.id));
+      break;
+    case "dateAsc":
+      arr.sort((a, b) => new Date(a.date || 0) - new Date(b.date || 0));
+      break;
+    case "dateDesc":
+      arr.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+      break;
+    case "titleAsc":
+      arr.sort((a, b) => (a.title || "").localeCompare(b.title || ""));
+      break;
+    case "titleDesc":
+      arr.sort((a, b) => (b.title || "").localeCompare(a.title || ""));
+      break;
+    case "newest":
+    default:
+      arr.sort((a, b) => getNumericIdPart(b.id) - getNumericIdPart(a.id));
+      break;
+  }
+
+  return arr;
+}
+
+function resetFormState() {
+  form.reset();
+  preview.style.display = "none";
+  preview.src = "";
+  editingEventIdInput.value = "";
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.textContent = "Publish";
+}
+
+// ---------- Image preview ----------
+imageInput?.addEventListener("change", () => {
+  const file = imageInput.files[0];
+  if (!file) {
+    preview.style.display = "none";
+    preview.src = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    preview.src = e.target.result;
+    preview.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+});
+
+// ---------- Render ----------
+function createPostCard(eventData) {
+  const article = document.createElement("article");
+  article.className = "post";
+
+  const displayDate = formatDateForCard(eventData.date);
+  const timeText =
+    eventData.start_time && eventData.end_time
+      ? `${eventData.start_time} • ${eventData.end_time}`
+      : eventData.start_time || "Time N/A";
+
+  article.innerHTML = `
+    ${eventData.image ? `<img src="${eventData.image}" alt="${eventData.title}" style="width:100%; max-height:180px; object-fit:cover; border-radius:12px; margin-bottom:10px;">` : ""}
+    <h3>${eventData.title}</h3>
+    <p class="meta">${displayDate} • ${eventData.location || "No location"} • ${timeText}</p>
+    <p>${eventData.description || ""}</p>
+    ${eventData.link ? `<p><a href="${eventData.link}" target="_blank">Event Link</a></p>` : ""}
+    <div class="post-actions">
+      <button class="btn small edit-btn" type="button">Edit</button>
+      <button class="btn small danger delete-btn" type="button">Delete</button>
+    </div>
+  `;
+
+  // Edit
+  article.querySelector(".edit-btn").addEventListener("click", () => {
+    document.getElementById("title").value = eventData.title || "";
+    document.getElementById("date").value = eventData.date || "";
+    document.getElementById("time").value = toInputTime(eventData.start_time || "");
+    document.getElementById("location").value = eventData.location || "";
+    document.getElementById("description").value = eventData.description || "";
+    document.getElementById("eventLink").value = eventData.link || "";
+    editingEventIdInput.value = eventData.id || "";
+
+    if (eventData.image) {
+      preview.src = eventData.image;
+      preview.style.display = "block";
+    } else {
+      preview.src = "";
+      preview.style.display = "none";
     }
-    const raw = fs.readFileSync(manualEventsPath, "utf8");
-    return JSON.parse(raw || "[]");
-  } catch (err) {
-    console.error("Error reading manualEvents.json:", err);
-    return [];
-  }
-}
 
-function writeManualEvents(events) {
-  fs.writeFileSync(manualEventsPath, JSON.stringify(events, null, 2), "utf8");
-}
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.textContent = "Update Event";
 
-// ---------- SCRAPER LOGIC ----------
-async function getUmsuEvents() {
-  try {
-    const url = "https://umsu.ca/events/";
-    const { data } = await axios.get(url, {
-      headers: { "User-Agent": "Mozilla/5.0" }
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
-    const $ = cheerio.load(data);
-    const results = [];
+  // Delete
+  article.querySelector(".delete-btn").addEventListener("click", async () => {
+    const ok = confirm(`Delete "${eventData.title}"?`);
+    if (!ok) return;
 
-    $("article").each((i, art) => {
-      const el = $(art);
-      const linkTag = el.find("a.tribe-events-pro-photo__event-title-link");
-      if (linkTag.length === 0) return;
-
-      const timeContainer = el.find("div.tribe-events-pro-photo__event-datetime");
-      const actualTimes = timeContainer.find("time");
-
-      results.push({
-        id: `umsu-${i}-${Date.now()}`, // temporary id for frontend keying
-        title: linkTag.text().trim() || "Untitled Event",
-        image:
-          el.find("img.tribe-events-pro-photo__event-featured-image").attr("src") ||
-          "",
-        link: linkTag.attr("href") || "#",
-        date:
-          el.find("time.tribe-events-pro-photo__event-date-tag-datetime").attr("datetime") ||
-          "N/A",
-        start_time: $(actualTimes[0]).text().trim() || "N/A",
-        end_time: $(actualTimes[1]).text().trim() || "N/A",
-        location: "", // optional, not always available
-        description: "",
-        source: "UMSU"
+    try {
+      const res = await fetch(`${API_BASE}/manual-events/${eventData.id}`, {
+        method: "DELETE"
       });
-    });
 
-    return results;
-  } catch (err) {
-    console.error("UMSU Scrape Failed:", err.message);
-    return [];
-  }
-}
-
-async function getUmMusicEvents() {
-  try {
-    const url = "https://umanitoba.ca/music/concert-hall-events";
-    const { data } = await axios.get(url, {
-      headers: { "User-Agent": "Mozilla/5.0" }
-    });
-
-    const $ = cheerio.load(data);
-    const results = [];
-
-    $("article.event-card-new").each((i, art) => {
-      const el = $(art);
-      const month = el.find(".month").text().trim();
-      const day = el.find(".day").text().trim();
-
-      let link = el.closest("a").attr("href") || "N/A";
-
-      // Make relative links absolute
-      if (link && link.startsWith("/")) {
-        link = `https://umanitoba.ca${link}`;
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || "Delete failed");
       }
 
-      let image = el.find("img").attr("src") || "";
-      if (image && image.startsWith("/")) {
-        image = `https://umanitoba.ca${image}`;
-      }
+      await loadManualPosts();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete event.");
+    }
+  });
 
-      results.push({
-        id: `music-${i}-${Date.now()}`,
-        title: el.find("h3").text().trim() || "Music Event",
-        image,
-        link,
-        date: `${month} ${day}`.trim() || "N/A",
-        start_time: el.find(".start").text().trim() || "N/A",
-        end_time: el.find(".end").text().trim() || "N/A",
-        location: "",
-        description: "",
-        source: "UofM Music"
-      });
-    });
+  return article;
+}
 
-    return results;
+function renderManualPosts() {
+  if (!postsContainer) return;
+
+  const mode = sortSelect?.value || "newest";
+  const sorted = sortPostsList(manualPosts, mode);
+
+  postsContainer.innerHTML = "";
+
+  if (sorted.length === 0) {
+    postsContainer.innerHTML = `<p>No manual posts yet.</p>`;
+    return;
+  }
+
+  sorted.forEach((ev) => {
+    postsContainer.appendChild(createPostCard(ev));
+  });
+}
+
+// ---------- Load ----------
+async function loadManualPosts() {
+  if (!postsContainer) return;
+
+  postsContainer.innerHTML = `<p>Loading your posts...</p>`;
+
+  try {
+    const res = await fetch(`${API_BASE}/manual-events`);
+    const json = await res.json();
+    manualPosts = json.data || [];
+    renderManualPosts();
   } catch (err) {
-    console.error("Music Scrape Failed:", err.message);
-    return [];
+    console.error("Failed to load manual posts:", err);
+    postsContainer.innerHTML = `<p style="color:red;">Unable to load posts. Is backend running?</p>`;
   }
 }
 
-// ---------- ROUTES ----------
+// ---------- Submit (Create or Update) ----------
+form?.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-// Combined events (manual + scraped)
-// Keep this for homepage
-app.get("/", async (req, res) => {
-  console.log("Root path hit, returning combined events...");
-  try {
-    const manualEvents = readManualEvents();
-    const umsu = await getUmsuEvents();
-    const music = await getUmMusicEvents();
+  const title = document.getElementById("title").value.trim();
+  const rawDate = document.getElementById("date").value;
+  const rawTime = document.getElementById("time").value;
+  const location = document.getElementById("location").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const link = document.getElementById("eventLink").value.trim();
 
-    res.json({
-      message: "Server is working!",
-      data: [...manualEvents, ...umsu, ...music]
+  let imageBase64 = "";
+  const file = imageInput.files[0];
+
+  if (file) {
+    imageBase64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (ev) => resolve(ev.target.result);
+      reader.readAsDataURL(file);
     });
-  } catch (error) {
-    console.error("GET / error:", error);
-    res.status(500).json({ error: "Failed to fetch events" });
+  } else if (editingEventIdInput.value && preview.src) {
+    imageBase64 = preview.src; // keep old image while editing
   }
-});
 
-// Keep API route too (if homepage uses /api/events later)
-app.get("/api/events", async (req, res) => {
-  console.log("Frontend requested /api/events...");
+  const payload = {
+    title,
+    date: rawDate,               // YYYY-MM-DD
+    start_time: formatTime(rawTime),
+    end_time: "",
+    location,
+    description,
+    link,
+    image: imageBase64,
+    source: "Manual"
+  };
+
+  const editingId = editingEventIdInput.value;
+
   try {
-    const manualEvents = readManualEvents();
-    const umsu = await getUmsuEvents();
-    const music = await getUmMusicEvents();
+    let res;
 
-    res.json([...manualEvents, ...umsu, ...music]);
-  } catch (error) {
-    console.error("Scrape Error:", error);
-    res.status(500).json({ error: "Failed to fetch events" });
-  }
-});
-
-// Get manual events only (for admin Post page)
-app.get("/manual-events", (req, res) => {
-  try {
-    const manualEvents = readManualEvents();
-    res.json({ data: manualEvents });
-  } catch (err) {
-    console.error("GET /manual-events error:", err);
-    res.status(500).json({ error: "Failed to load manual events" });
-  }
-});
-
-// Add manual event (admin publish)
-app.post("/manual-events", (req, res) => {
-  try {
-    const {
-      title,
-      date,
-      start_time = "",
-      end_time = "",
-      location = "",
-      description = "",
-      link = "",
-      image = "",
-      source = "Manual"
-    } = req.body;
-
-    if (!title || !date) {
-      return res.status(400).json({ error: "title and date are required" });
+    if (editingId) {
+      // UPDATE
+      res = await fetch(`${API_BASE}/manual-events/${editingId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      // CREATE
+      res = await fetch(`${API_BASE}/manual-events`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
     }
 
-    const manualEvents = readManualEvents();
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Save failed");
 
-    const newEvent = {
-      id: `manual-${Date.now()}`,
-      title,
-      date, // should be YYYY-MM-DD from your form
-      start_time,
-      end_time,
-      location,
-      description,
-      link,
-      image,
-      source
-    };
+    resetFormState();
+    await loadManualPosts();
 
-    manualEvents.unshift(newEvent);
-    writeManualEvents(manualEvents);
-
-    res.status(201).json({ message: "Event saved", event: newEvent });
+    alert(editingId ? "Event updated ✅" : "Event published ✅");
   } catch (err) {
-    console.error("POST /manual-events error:", err);
-    res.status(500).json({ error: "Failed to save event" });
+    console.error(err);
+    alert("Failed to save event. Make sure backend is running.");
   }
 });
 
-// Delete manual event (admin delete)
-app.delete("/manual-events/:id", (req, res) => {
-  try {
-    const { id } = req.params;
-    const manualEvents = readManualEvents();
+// ---------- Sort ----------
+sortSelect?.addEventListener("change", renderManualPosts);
 
-    const updated = manualEvents.filter((ev) => ev.id !== id);
-
-    if (updated.length === manualEvents.length) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-
-    writeManualEvents(updated);
-    res.json({ message: "Event deleted" });
-  } catch (err) {
-    console.error("DELETE /manual-events/:id error:", err);
-    res.status(500).json({ error: "Failed to delete event" });
-  }
+// ---------- Cancel Edit ----------
+cancelEditBtn?.addEventListener("click", () => {
+  resetFormState();
 });
 
-app.listen(PORT, () => {
-  console.log(`Scraper server live on http://localhost:${PORT}`);
-});
-
-// Update manual event (admin edit)
-app.put("/manual-events/:id", (req, res) => {
-  try {
-    const { id } = req.params;
-    const {
-      title,
-      date,
-      start_time = "",
-      end_time = "",
-      location = "",
-      description = "",
-      link = "",
-      image = "",
-      source = "Manual"
-    } = req.body;
-
-    const manualEvents = readManualEvents();
-    const index = manualEvents.findIndex((ev) => ev.id === id);
-
-    if (index === -1) {
-      return res.status(404).json({ error: "Event not found" });
-    }
-
-    // keep existing image if frontend sends empty image during edit
-    const existing = manualEvents[index];
-
-    manualEvents[index] = {
-      ...existing,
-      title,
-      date,
-      start_time,
-      end_time,
-      location,
-      description,
-      link,
-      image: image || existing.image || "",
-      source
-    };
-
-    writeManualEvents(manualEvents);
-    res.json({ message: "Event updated", event: manualEvents[index] });
-  } catch (err) {
-    console.error("PUT /manual-events/:id error:", err);
-    res.status(500).json({ error: "Failed to update event" });
-  }
-});
+// ---------- Init ----------
+window.addEventListener("DOMContentLoaded", loadManualPosts);

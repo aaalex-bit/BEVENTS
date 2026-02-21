@@ -3,73 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BEEVENTS</title>
-
+  <title>BEEVENTS Admin</title>
   <link rel="stylesheet" href="../Constants/Constants.css" />
 </head>
 <body>
   <header class="topbar">
-  <a href="HomePg.html" class="brand">
-    <img src="../Assets/logo.jpeg" alt="BEEVENTS Logo" class="logo" />
-    <span class="brand-name">BISONS EVENTS HUB</span>
-  </a>
+    <a href="HomePg.html" class="brand">
+      <img src="../Assets/logo.jpeg" alt="BEEVENTS Logo" class="logo" />
+      <span class="brand-name">BISONS EVENTS HUB</span>
+    </a>
 
-  <nav class="nav">
-    <a class="nav-link" href="#posts">My Posts</a>
-    <a class="nav-link" href="#new">Post New</a>
-    <a class="nav-link danger" href="LoginPg.html">Logout</a>
-  </nav>
-</header>
+    <nav class="nav">
+      <a class="nav-link" href="#posts">My Posts</a>
+      <a class="nav-link" href="#new">Post New</a>
+      <a class="nav-link danger" href="LoginPg.html">Logout</a>
+    </nav>
+  </header>
 
-<main class="container">
+  <main class="container">
 
-  <section id="posts" class="card">
-    <h2>My Posts</h2>
+    <!-- My Posts -->
+    <section id="posts" class="card">
+      <h2>My Posts</h2>
 
-  <section id="new" class="card">
-    <h2>Post New Event</h2>
-
-    <form class="form" id="eventForm">
-      <label>
-        Title
-        <input type="text" id="title" placeholder="Event title" required />
-      </label>
-
-      <div class="grid-2">
-        <label>
-          Date
-          <input type="date" id="date" required />
-        </label>
-        <label>
-          Time
-          <input type="time" id="time" required />
-        </label>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:12px;">
+        <p style="margin:0;">Manage your posts</p>
+        <select id="sortPosts">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="dateAsc">Event Date ↑</option>
+          <option value="dateDesc">Event Date ↓</option>
+          <option value="titleAsc">Title A–Z</option>
+          <option value="titleDesc">Title Z–A</option>
+        </select>
       </div>
 
-      <label>
-        Location
-        <input type="text" id="location" placeholder="Where is it?" required />
-      </label>
+      <div class="posts" id="postsContainer">
+        <!-- JS renders posts here -->
+      </div>
+    </section>
 
-      <label>
-        Description
-        <textarea id="description" rows="5" placeholder="Details about the event..." required></textarea>
-      </label>
-      <label>
-        Event Link
-        <input type="text" id="eventLink" placeholder="Event title">
-      </label>
-      <label>
-        Upload Image
-        <input type="file" id="imageInput" accept="image/*">
-      </label>
+    <!-- Post New -->
+    <section id="new" class="card">
+      <h2>Post New Event</h2>
 
-    <img id="preview" style="display:none; width:200px; margin-top:10px; border-radius:20px;" />
-      <button class="btn" type="submit">Publish</button>
-    </form>
-  </section>
-  </section>
-</main>
-<script src="../Firebase/Scrape/PostHandler.js"></script>
+      <form class="form" id="eventForm">
+        <input type="hidden" id="editingEventId" value="" />
+
+        <label>
+          Title
+          <input type="text" id="title" placeholder="Event title" required />
+        </label>
+
+        <div class="grid-2">
+          <label>
+            Date
+            <input type="date" id="date" required />
+          </label>
+          <label>
+            Time
+            <input type="time" id="time" required />
+          </label>
+        </div>
+
+        <label>
+          Location
+          <input type="text" id="location" placeholder="Where is it?" required />
+        </label>
+
+        <label>
+          Description
+          <textarea id="description" rows="5" placeholder="Details about the event..." required></textarea>
+        </label>
+
+        <label>
+          Event Link
+          <input type="url" id="eventLink" placeholder="https://..." />
+        </label>
+
+        <label>
+          Upload Image
+          <input type="file" id="imageInput" accept="image/*" />
+        </label>
+
+        <img id="preview" style="display:none; width:200px; margin-top:10px; border-radius:20px;" />
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button class="btn" type="submit">Publish</button>
+          <button class="btn" type="button" id="cancelEditBtn">Cancel Edit</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="../Firebase/Scrape/PostHandler.js"></script>
 </body>
 </html>
