@@ -83,5 +83,5 @@ function requirementsPass(email, password){
 //they are allowed to post events
 function createSignedInCookie(email){
 
-    let name = document.cookie = "name = "+ email;
+    let name = document.cookie = "email= "+ email;
 }
